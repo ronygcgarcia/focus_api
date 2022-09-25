@@ -25,9 +25,9 @@ class BookIndexRequest extends FormRequest
     public function rules()
     {
         return [
-            'title' => 'sometimes|string',
-            'author' => 'sometimes|string',
-            'genre_id' => 'sometimes|integer|exists:genres,id',
+            'title' => 'sometimes|string|nullable',
+            'author' => 'sometimes|string|nullable',
+            'genre_id' => 'sometimes|integer|exists:genres,id|nullable',
         ];
     }
 
