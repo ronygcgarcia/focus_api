@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Book;
+use App\Models\book as Book;
 use App\Models\Checkout;
 use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
