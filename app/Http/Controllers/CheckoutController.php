@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
 use App\Http\Resources\CheckoutResource;
 use App\Http\Requests\CheckoutStoreRequest;
+use App\Http\Requests\CheckoutIndexRequest;
 use Illuminate\Support\Facades\Validator;
 use Carbon\Carbon;
 
@@ -19,11 +20,11 @@ class CheckoutController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index(CheckoutIndexRequest $request)
     {
-        $student =  $request->query('user_id');
-        $checkouts = Checkout::when(Auth::user()->hasRole('librarian') &&  $student, function ($query) use ($request) {
-            $query->where('user_id',  $request->query('user_id'));
+        extract($request->all());
+        $checkouts = Checkout::when(Auth::user()->hasRole('librarian') &&  $user_id, function ($query, $user_id) use ($request) {
+            $query->where('user_id', $user_id);
         })
             ->when(Auth::user()->hasRole('student'), function ($query) use ($request) {
                 $query->where('user_id', Auth::id());
