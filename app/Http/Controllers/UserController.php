@@ -8,6 +8,7 @@ use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Symfony\Component\HttpFoundation\Response;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
@@ -38,5 +39,14 @@ class UserController extends Controller
         $user->assignRole($request->input('role_id'));
 
         return response()->json($user, Response::HTTP_CREATED);
+    }
+
+    public function show()
+    {
+        /**
+         * @var User
+         */
+        $user = Auth::user();
+        return new UserResource($user->load('roles'));
     }
 }
