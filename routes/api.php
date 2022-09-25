@@ -7,6 +7,7 @@ use App\Http\Controllers\BookController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\GenreController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\RouteController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -43,4 +44,5 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/genre', [GenreController::class, 'index']);
     
     Route::get('/user', [UserController::class, 'show']);
+    Route::get('/routes', [RouteController::class, 'index']);
 });
