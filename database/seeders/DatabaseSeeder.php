@@ -4,6 +4,12 @@ namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
+use App\Models\User;
+use App\Models\Genre;
+use App\Models\RoleRoute;
+use App\Models\Route;
+use Spatie\Permission\Models\Role;
 
 class DatabaseSeeder extends Seeder
 {
