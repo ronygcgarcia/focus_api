@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Http\Requests\BookIndexRequest;
+use App\Http\Requests\BookStoreRequest;
 use App\Http\Resources\BookResource;
 use Illuminate\Support\Facades\Validator;
 use App\Models\book as Book;
@@ -42,24 +44,8 @@ class BookController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(BookStoreRequest $request)
     {
-        $validator = Validator::make($request->all(), [
-            'title' => 'required|unique:books|max:255',
-            'description' => 'required|string|max:255',
-            'author' => 'required',
-            'link_image' => 'required|string',
-            'publish_year' => 'required|integer',
-            'genre_id' => 'required|integer|exists:genres,id',
-            'stock' => 'required|integer'
-        ]);
-
-        if ($validator->fails()) {
-            return response()
-                ->json($validator->errors(), 422)
-                ->header('Content-Type', 'application/json');
-        }
-
         $book = Book::create($request->all());
         return $book;
     }
