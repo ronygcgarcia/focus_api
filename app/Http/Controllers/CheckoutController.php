@@ -74,4 +74,29 @@ class CheckoutController extends Controller
             'message' => 'Books checkout successfully'
         ]);
     }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  \App\Checkout  $checkout
+     * @return \Illuminate\Http\Response
+     */
+    public function show(Checkout $checkout)
+    {
+        return new CheckoutResource($checkout->load('book'));
+    }
+
+    public function showCheckout(Checkout $checkout)
+    {
+        $checkout = Checkout::where('user_id', Auth::id())
+            ->where('id', $checkout->id)
+            ->with('book')
+            ->first();
+
+        if (!$checkout) return response()->json([
+            'message' => 'Checkout not found'
+        ]);
+
+        return new CheckoutResource($checkout);
+    }
 }
