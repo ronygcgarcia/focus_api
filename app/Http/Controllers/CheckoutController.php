@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Book;
 use App\Models\Checkout;
 use Illuminate\Support\Facades\Auth;
+use Symfony\Component\HttpFoundation\Response;
 use App\Http\Resources\CheckoutResource;
 use Illuminate\Support\Facades\Validator;
 use Carbon\Carbon;
@@ -98,5 +99,40 @@ class CheckoutController extends Controller
         ]);
 
         return new CheckoutResource($checkout);
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Checkout  $checkout
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, Checkout $checkout)
+    {
+        $validator = Validator::make($request->all(), [
+            'status' => 'required|boolean',
+        ]);
+
+        if ($validator->fails()) {
+            return response()
+                ->json($validator->errors(), 422)
+                ->header('Content-Type', 'application/json');
+        }
+        if ($checkout->status) {
+            return response()->json([
+                'message' => 'The book has been already returned'
+            ], Response::HTTP_BAD_REQUEST);
+        }
+        $status = $request->input('status');
+        $checkout->update([
+            'status' => $status
+        ]);
+
+        Book::find($checkout->book_id)->increment('stock', 1);
+
+        return response()->json([
+            'message' => 'Update successfully'
+        ]);
     }
 }
