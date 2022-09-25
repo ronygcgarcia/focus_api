@@ -6,6 +6,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BookController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\GenreController;
+use App\Http\Controllers\UserController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -33,6 +34,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
         
         Route::get('/checkouts/{checkout}', [CheckoutController::class, 'show']);
         Route::put('/checkouts/{checkout}', [CheckoutController::class, 'update']);
+
+        Route::get('/users', [UserController::class, 'index']);
     });
 
     Route::get('/checkouts', [CheckoutController::class, 'index']);
