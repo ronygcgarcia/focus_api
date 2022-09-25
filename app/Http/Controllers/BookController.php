@@ -63,4 +63,15 @@ class BookController extends Controller
         $book = Book::create($request->all());
         return $book;
     }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  \App\Book  $book
+     * @return \Illuminate\Http\Response
+     */
+    public function show(Book $book)
+    {
+        return new BookResource($book->load('genre')->load('checkouts'));
+    }
 }
