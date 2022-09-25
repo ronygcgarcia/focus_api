@@ -3,6 +3,8 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
+use App\Models\Checkout;
+use Illuminate\Support\Facades\Auth;
 
 class BookResource extends JsonResource
 {
