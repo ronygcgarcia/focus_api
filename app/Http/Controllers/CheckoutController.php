@@ -30,8 +30,7 @@ class CheckoutController extends Controller
                 $query->where('user_id', Auth::id());
             })
             ->orderBy('id')
-            ->with('book')
-            ->with('user')
+            ->with('book', 'user')
             ->get();
         return CheckoutResource::collection($checkouts);
     }
