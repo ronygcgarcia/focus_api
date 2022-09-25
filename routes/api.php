@@ -36,6 +36,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::put('/checkouts/{checkout}', [CheckoutController::class, 'update']);
 
         Route::get('/users', [UserController::class, 'index']);
+        Route::post('/users', [UserController::class, 'store']);
     });
 
     Route::get('/checkouts', [CheckoutController::class, 'index']);
