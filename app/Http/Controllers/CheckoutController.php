@@ -23,7 +23,7 @@ class CheckoutController extends Controller
     public function index(CheckoutIndexRequest $request)
     {
         extract($request->all());
-        $checkouts = Checkout::when(Auth::user()->hasRole('librarian') &&  $user_id, function ($query, $user_id) use ($request) {
+        $checkouts = Checkout::when(Auth::user()->hasRole('librarian') &&  $user_id, function ($query) use ($user_id) {
             $query->where('user_id', $user_id);
         })
             ->when(Auth::user()->hasRole('student'), function ($query) use ($request) {
