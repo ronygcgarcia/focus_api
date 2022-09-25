@@ -35,4 +35,32 @@ class BookController extends Controller
 
         return BookResource::collection($books);
     }
+
+     /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'title' => 'required|unique:books|max:255',
+            'description' => 'required|string|max:255',
+            'author' => 'required',
+            'link_image' => 'required|string',
+            'publish_year' => 'required|integer',
+            'genre_id' => 'required|integer|exists:genres,id',
+            'stock' => 'required|integer'
+        ]);
+
+        if ($validator->fails()) {
+            return response()
+                ->json($validator->errors(), 422)
+                ->header('Content-Type', 'application/json');
+        }
+
+        $book = Book::create($request->all());
+        return $book;
+    }
 }
