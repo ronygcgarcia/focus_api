@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Http\Requests\BookIndexRequest;
+use App\Http\Requests\BookStoreRequest;
 use App\Http\Resources\BookResource;
 use Illuminate\Support\Facades\Validator;
-use App\Models\Book;
+use App\Models\book as Book;
 
 class BookController extends Controller
 {
@@ -14,11 +16,9 @@ class BookController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index(BookIndexRequest $request)
     {
-        $title = $request->query('title');
-        $author = $request->query('author');
-        $genre = $request->query('genre_id');
+        extract($request->all());
 
         $books = Book::when($title, function ($query) use ($request) {
             $query->where('title', 'ILIKE', '%'.$request->query('title').'%');
@@ -26,7 +26,7 @@ class BookController extends Controller
             ->when($author, function ($query) use ($request) {
                 $query->where('author', 'ILIKE', '%'.$request->query('author').'%');
             })
-            ->when($genre, function ($query) use ($request) {
+            ->when($genre_id, function ($query) use ($request) {
                 $query->where('genre_id', $request->query('genre_id'));
             })
             ->orderBy('id')
@@ -42,24 +42,8 @@ class BookController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(BookStoreRequest $request)
     {
-        $validator = Validator::make($request->all(), [
-            'title' => 'required|unique:books|max:255',
-            'description' => 'required|string|max:255',
-            'author' => 'required',
-            'link_image' => 'required|string',
-            'publish_year' => 'required|integer',
-            'genre_id' => 'required|integer|exists:genres,id',
-            'stock' => 'required|integer'
-        ]);
-
-        if ($validator->fails()) {
-            return response()
-                ->json($validator->errors(), 422)
-                ->header('Content-Type', 'application/json');
-        }
-
         $book = Book::create($request->all());
         return $book;
     }

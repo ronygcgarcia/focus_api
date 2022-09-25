@@ -23,6 +23,6 @@ class CheckoutDetail extends Pivot
     public $incrementing = true;
 
     public function book(){
-        return $this->belongsTo(Book::class);
+        return $this->belongsTo(book::class);
     }
 }
