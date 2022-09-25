@@ -41,4 +41,6 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     Route::get('/checkouts', [CheckoutController::class, 'index']);
     Route::get('/genre', [GenreController::class, 'index']);
+    
+    Route::get('/user', [UserController::class, 'show']);
 });
