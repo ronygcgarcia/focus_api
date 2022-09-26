@@ -7,10 +7,11 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
 use App\Models\User;
+use App\Http\Requests\LoginRequest;
 
 class AuthController extends Controller
 {
-    public function login(Request $request)
+    public function login(LoginRequest $request)
     {
         $credentials = $this->credentials($request);
 
